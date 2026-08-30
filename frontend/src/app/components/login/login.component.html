@@ -1,0 +1,43 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-header">
+      <i class="fas fa-shield-alt fa-3x"></i>
+      <h2>Star Protect Vehicle</h2>
+      <p>Insurance Management System</p>
+    </div>
+    <div class="login-body">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label"><i class="fas fa-user"></i> User ID</label>
+          <input type="text" formControlName="userId" class="form-control" placeholder="Enter User ID">
+          <div class="text-danger small" *ngIf="loginForm.get('userId')?.invalid && loginForm.get('userId')?.touched">
+            User ID is required
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><i class="fas fa-lock"></i> Password</label>
+          <input type="password" formControlName="password" class="form-control" placeholder="Enter Password">
+          <div class="text-danger small" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+            Password is required
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label"><i class="fas fa-user-tag"></i> Login As</label>
+          <select formControlName="role" class="form-select">
+            <option value="admin">Administrator</option>
+            <option value="underwriter">UnderWriter</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-login" [disabled]="loading">
+          <i class="fas fa-sign-in-alt"></i> {{ loading ? 'Logging in...' : 'Login' }}
+        </button>
+        <div class="loading" [class.show]="loading">
+          <i class="fas fa-spinner fa-spin"></i> Authenticating...
+        </div>
+        <div class="error-message mt-3" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,273 @@
+<div class="dashboard-wrapper">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <i class="fas fa-shield-alt fa-2x"></i>
+      <h4>Admin Panel</h4>
+      <span class="badge bg-light text-dark mt-2">{{ adminName }}</span>
+    </div>
+    <nav class="sidebar-nav">
+      <div (click)="loadContent('dashboard')" [class.active]="currentView === 'dashboard'" class="nav-item">
+        <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+      </div>
+      <div (click)="loadContent('register')" [class.active]="currentView === 'register'" class="nav-item">
+        <i class="fas fa-user-plus"></i> <span>Register Underwriter</span>
+      </div>
+      <div (click)="loadContent('search')" [class.active]="currentView === 'search'" class="nav-item">
+        <i class="fas fa-search"></i> <span>Search Underwriter</span>
+      </div>
+      <div (click)="loadContent('update')" [class.active]="currentView === 'update'" class="nav-item">
+        <i class="fas fa-key"></i> <span>Update Password</span>
+      </div>
+      <div (click)="loadContent('delete')" [class.active]="currentView === 'delete'" class="nav-item">
+        <i class="fas fa-trash-alt"></i> <span>Delete Underwriter</span>
+      </div>
+      <div (click)="loadContent('viewAll')" [class.active]="currentView === 'viewAll'" class="nav-item">
+        <i class="fas fa-users"></i> <span>View All Underwriters</span>
+      </div>
+      <div (click)="loadContent('viewPolicies')" [class.active]="currentView === 'viewPolicies'" class="nav-item">
+        <i class="fas fa-file-alt"></i> <span>View All Policies</span>
+      </div>
+      <div (click)="loadContent('approvePolicies')" [class.active]="currentView === 'approvePolicies'" class="nav-item">
+        <i class="fas fa-check-double"></i> <span>Approve Policies</span>
+      </div>
+    </nav>
+    <button (click)="logout()" class="logout-btn">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </button>
+  </div>
+
+  <div class="main-content">
+    <div class="content-header">
+      <h3><i class="fas fa-tachometer-alt"></i> Administrator Dashboard</h3>
+    </div>
+    <div class="content-area">
+      <div class="loading" [class.show]="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+      
+      <!-- Dashboard View -->
+      <div *ngIf="currentView === 'dashboard'">
+        <div class="stats-grid">
+          <div class="stat-card-dash">
+            <i class="fas fa-file-alt fa-2x" style="color: #1e6b5e;"></i>
+            <div class="stat-number">{{ dashboardStats.totalPolicies || 0 }}</div>
+            <div>Total Policies</div>
+          </div>
+          <div class="stat-card-dash">
+            <i class="fas fa-check-circle fa-2x" style="color: #28a745;"></i>
+            <div class="stat-number">{{ dashboardStats.activePolicies || 0 }}</div>
+            <div>Active Policies</div>
+          </div>
+          <div class="stat-card-dash">
+            <i class="fas fa-clock fa-2x" style="color: #ffc107;"></i>
+            <div class="stat-number">{{ dashboardStats.pendingPolicies || 0 }}</div>
+            <div>Pending Approval</div>
+          </div>
+          <div class="stat-card-dash">
+            <i class="fas fa-users fa-2x" style="color: #e6b422;"></i>
+            <div class="stat-number">{{ dashboardStats.totalUnderwriters || 0 }}</div>
+            <div>Total Underwriters</div>
+          </div>
+        </div>
+        <div class="card-custom">
+          <h4><i class="fas fa-chart-line"></i> Recent Policies</h4>
+          <div *ngIf="recentPolicies.length === 0" class="text-muted">No policies found.</div>
+          <div class="table-responsive" *ngIf="recentPolicies.length > 0">
+            <table class="table-custom">
+              <thead>
+                <tr><th>Policy ID</th><th>Customer</th><th>Vehicle No</th><th>Premium</th><th>Status</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let policy of recentPolicies">
+                  <td>{{ policy.policyId }}</td>
+                  <td>{{ policy.customerName }}</td>
+                  <td>{{ policy.vehicleNo }}</td>
+                  <td>₹{{ policy.premiumAmount | number }}</td>
+                  <td><span class="policy-status-badge" [ngClass]="getStatusClass(policy.status)">{{ policy.status || 'Active' }}</span></td>
+                  <td><button class="btn btn-sm btn-primary-custom" (click)="viewPolicyDetails(policy.policyId)">View</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Register Underwriter View -->
+      <div *ngIf="currentView === 'register'">
+        <div class="card-custom">
+          <h4><i class="fas fa-user-plus"></i> Register New Underwriter</h4>
+          <form (ngSubmit)="registerUnderwriter()">
+            <div class="mb-3">
+              <label>Full Name (Max 50 characters)</label>
+              <input type="text" [(ngModel)]="registerData.name" name="name" maxlength="50" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label>Date of Birth (Must be 18+ years)</label>
+              <input type="date" [(ngModel)]="registerData.dob" name="dob" class="form-control" required>
+              <small class="text-muted">Underwriter must be at least 18 years old</small>
+            </div>
+            <div class="mb-3">
+              <label>Joining Date</label>
+              <input type="text" [value]="getTodayDate()" class="form-control" readonly disabled>
+              <input type="hidden" [(ngModel)]="registerData.joiningDate" name="joiningDate">
+            </div>
+            <div class="mb-3">
+              <label>Password (Alphanumeric + Special Character)</label>
+              <input type="password" [(ngModel)]="registerData.password" name="password" class="form-control" placeholder="e.g., New@123" required>
+              <small class="text-muted">Must contain letters, numbers, and special character</small>
+            </div>
+            <div class="mb-3">
+              <label>Confirm Password</label>
+              <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" class="form-control" placeholder="Re-enter password" required>
+            </div>
+            <button type="submit" class="btn btn-primary-custom">Register</button>
+          </form>
+          <div class="mt-3" *ngIf="registerMessage">
+            <div class="alert" [ngClass]="registerSuccess ? 'alert-success' : 'alert-danger'">{{ registerMessage }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Underwriter View -->
+      <div *ngIf="currentView === 'search'">
+        <div class="card-custom">
+          <h4><i class="fas fa-search"></i> Search Underwriter by ID</h4>
+          <div class="input-group mb-3">
+            <input type="text" [(ngModel)]="searchId" class="form-control" placeholder="Enter Underwriter ID (e.g., UW101)">
+            <button (click)="searchUnderwriter()" class="btn btn-primary-custom">Search</button>
+          </div>
+          <div *ngIf="searchResult">
+            <div class="alert" [ngClass]="searchResult.found ? 'alert-info' : 'alert-warning'">
+              <div *ngIf="searchResult.found">
+                <strong>Underwriter ID:</strong> {{ searchResult.underwriterId }}<br>
+                <strong>Name:</strong> {{ searchResult.name }}<br>
+                <strong>DOB:</strong> {{ searchResult.dob }}<br>
+                <strong>Age:</strong> {{ searchResult.age }} years<br>
+                <strong>Joining Date:</strong> {{ searchResult.joiningDate }}
+              </div>
+              <div *ngIf="!searchResult.found">
+                {{ searchResult.message }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Update Password View -->
+      <div *ngIf="currentView === 'update'">
+        <div class="card-custom">
+          <h4><i class="fas fa-key"></i> Update Underwriter Password</h4>
+          <div class="mb-3">
+            <label>Underwriter ID</label>
+            <input type="text" [(ngModel)]="updateData.underwriterId" class="form-control" placeholder="e.g., UW101">
+          </div>
+          <div class="mb-3">
+            <label>New Password (Alphanumeric + Special Character)</label>
+            <input type="password" [(ngModel)]="updateData.newPassword" class="form-control" placeholder="Must contain alphanumeric + special char">
+          </div>
+          <div class="mb-3">
+            <label>Confirm New Password</label>
+            <input type="password" [(ngModel)]="updateData.confirmPassword" class="form-control" placeholder="Re-enter new password">
+          </div>
+          <button (click)="updatePassword()" class="btn btn-primary-custom">Update Password</button>
+          <div class="mt-3" *ngIf="updateMessage">
+            <div class="alert" [ngClass]="updateSuccess ? 'alert-success' : 'alert-danger'">{{ updateMessage }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete Underwriter View -->
+      <div *ngIf="currentView === 'delete'">
+        <div class="card-custom">
+          <h4><i class="fas fa-trash-alt"></i> Delete Underwriter</h4>
+          <div class="input-group mb-3">
+            <input type="text" [(ngModel)]="deleteId" class="form-control" placeholder="Enter Underwriter ID">
+            <button (click)="deleteUnderwriter()" class="btn btn-danger-custom">Delete</button>
+          </div>
+          <div *ngIf="deleteMessage">
+            <div class="alert" [ngClass]="deleteSuccess ? 'alert-success' : 'alert-danger'">{{ deleteMessage }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- View All Underwriters -->
+      <div *ngIf="currentView === 'viewAll'">
+        <div class="card-custom">
+          <h4><i class="fas fa-users"></i> All Underwriters</h4>
+          <div *ngIf="underwriters.length === 0" class="text-muted">No underwriters registered yet.</div>
+          <div class="table-responsive" *ngIf="underwriters.length > 0">
+            <table class="table-custom">
+              <thead>
+                <tr><th>Underwriter ID</th><th>Name</th><th>Date of Birth</th><th>Age</th><th>Joining Date</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let uw of underwriters">
+                  <td>{{ uw.underwriterId }}</td>
+                  <td>{{ uw.name }}</td>
+                  <td>{{ uw.dob }}</td>
+                  <td>{{ calculateAge(uw.dob) }}</td>
+                  <td>{{ uw.joiningDate }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- View All Policies -->
+      <div *ngIf="currentView === 'viewPolicies'">
+        <div class="card-custom">
+          <h4><i class="fas fa-list-alt"></i> All Vehicle Insurance Policies</h4>
+          <div *ngIf="allPolicies.length === 0" class="text-muted">No insurance policies found.</div>
+          <div class="table-responsive" *ngIf="allPolicies.length > 0">
+            <table class="table-custom">
+              <thead>
+                <tr><th>Policy ID</th><th>Vehicle No</th><th>Customer Name</th><th>Premium</th><th>Insurance Type</th><th>From Date</th><th>To Date</th><th>Underwriter</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let policy of allPolicies">
+                  <td>{{ policy.policyId }}</td>
+                  <td>{{ policy.vehicleNo }}</td>
+                  <td>{{ policy.customerName }}</td>
+                  <td>₹{{ policy.premiumAmount | number }}</td>
+                  <td>{{ policy.insuranceType }}</td>
+                  <td>{{ policy.fromDate }}</td>
+                  <td>{{ policy.toDate }}</td>
+                  <td>{{ policy.underwriterId }}</td>
+                  <td><span class="policy-status-badge" [ngClass]="getStatusClass(policy.status)">{{ policy.status || 'Active' }}</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Approve Policies -->
+      <div *ngIf="currentView === 'approvePolicies'">
+        <div class="card-custom">
+          <h4><i class="fas fa-check-double"></i> Pending Policy Approvals</h4>
+          <div *ngIf="pendingPolicies.length === 0" class="text-muted">No pending policies for approval.</div>
+          <div class="table-responsive" *ngIf="pendingPolicies.length > 0">
+            <table class="table-custom">
+              <thead>
+                <tr><th>Policy ID</th><th>Customer</th><th>Vehicle No</th><th>Premium</th><th>Type</th><th>Underwriter</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let policy of pendingPolicies">
+                  <td>{{ policy.policyId }}</td>
+                  <td>{{ policy.customerName }}</td>
+                  <td>{{ policy.vehicleNo }}</td>
+                  <td>₹{{ policy.premiumAmount | number }}</td>
+                  <td>{{ policy.insuranceType }}</td>
+                  <td>{{ policy.underwriterId }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-success me-2" (click)="approvePolicy(policy.policyId)">Approve</button>
+                    <button class="btn btn-sm btn-danger" (click)="rejectPolicy(policy.policyId)">Reject</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

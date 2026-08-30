@@ -1,0 +1,66 @@
+# =========================
+# Java / Spring Boot
+# =========================
+*.class
+*.log
+target/
+*.war
+*.ear
+*.nar
+
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# =========================
+# Node / Angular
+# =========================
+node_modules/
+dist/
+.angular/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# IDEs
+# =========================
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# =========================
+# OS Generated Files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Java Crash Logs
+# =========================
+hs_err_pid*
+replay_pid*
+
+# =========================
+# Temporary Files
+# =========================
+*.tmp
+*.temp

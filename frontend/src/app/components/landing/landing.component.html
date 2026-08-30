@@ -1,0 +1,248 @@
+<nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="fas fa-shield-alt"></i>
+      Star Protect <span style="color: var(--accent-gold);">Vehicle</span>
+    </a>
+    <div class="ms-auto">
+      <a routerLink="/login" class="btn-login-nav me-2"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
+      <a routerLink="/login" class="btn-get-started">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero-section" style="margin-top: 70px;">
+  <div class="container position-relative">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 text-white">
+        <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill"><i class="fas fa-car-side me-1"></i> Trusted by 21K+ Drivers</span>
+        <h1 class="hero-title mb-4">Drive with Confidence, <br> <span style="color: var(--accent-gold);">Protect with Precision</span></h1>
+        <p class="hero-subtitle mb-4">Instant vehicle insurance policies, seamless underwriting, and 24/7 claim assistance — all in one intelligent dashboard.</p>
+        <div class="d-flex flex-wrap gap-3">
+          <a routerLink="/login" class="btn-gold"><i class="fas fa-laptop-code"></i> Access Portal →</a>
+          <a href="#features" class="btn-outline-light">Explore Features</a>
+        </div>
+        <div class="row mt-5 g-3">
+          <div class="col-4">
+            <div><i class="fas fa-check-circle text-warning"></i> <strong>99.9%</strong> <br> <small>Claim Approval</small></div>
+          </div>
+          <div class="col-4">
+            <div><i class="fas fa-tachometer-alt text-warning"></i> <strong>5-min</strong> <br> <small>Policy Issuance</small></div>
+          </div>
+          <div class="col-4">
+            <div><i class="fas fa-headset text-warning"></i> <strong>24/7</strong> <br> <small>Support</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="floating-car-card text-dark">
+          <div class="text-center mb-3">
+            <i class="fas fa-file-invoice-dollar fa-3x" style="color: var(--primary-teal);"></i>
+          </div>
+          <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+            <span><strong>Quick Quote</strong></span>
+            <span class="badge bg-success rounded-pill">Get instant estimate</span>
+          </div>
+          <form (ngSubmit)="estimatePremium()" id="quoteForm">
+            <div class="mb-2">
+              <input type="text" class="form-control" placeholder="Vehicle Number" id="quoteVehicle" required>
+            </div>
+            <div class="mb-2">
+              <select class="form-select" id="quoteType">
+                <option value="4-wheeler">4-Wheeler (Car/SUV)</option>
+                <option value="2-wheeler">2-Wheeler (Bike/Scooter)</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <input type="text" class="form-control" placeholder="Mobile Number" id="quoteMobile" maxlength="10" (input)="validateMobile($event)">
+            </div>
+            <button type="submit" class="btn-estimate"><i class="fas fa-calculator"></i> Estimate Premium</button>
+          </form>
+          <div id="quotePreview" class="mt-3 small text-center text-muted"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container mt-5 pt-3">
+  <div class="stats-grid-custom">
+    <div class="stats-card">
+      <i class="fas fa-file-alt fa-2x" style="color: var(--accent-gold);"></i>
+      <h2 class="mt-2 fw-bold text-dark">500+</h2>
+      <p class="text-muted">Active Policies</p>
+    </div>
+    <div class="stats-card">
+      <i class="fas fa-user-check fa-2x" style="color: var(--accent-gold);"></i>
+      <h2 class="mt-2 fw-bold text-dark">10+</h2>
+      <p class="text-muted">Expert Underwriters</p>
+    </div>
+    <div class="stats-card">
+      <i class="fas fa-clock fa-2x" style="color: var(--accent-gold);"></i>
+      <h2 class="mt-2 fw-bold text-dark">24/7</h2>
+      <p class="text-muted">Claim Assistance</p>
+    </div>
+    <div class="stats-card">
+      <i class="fas fa-star fa-2x" style="color: var(--accent-gold);"></i>
+      <h2 class="mt-2 fw-bold text-dark">4.9 ★</h2>
+      <p class="text-muted">Customer Rating</p>
+    </div>
+  </div>
+</div>
+
+<section id="features" class="container my-5 py-5">
+  <div class="text-center mb-5">
+    <h2 class="section-title" style="color: #fff;">Why Choose Us?</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+      <h5 class="fw-bold">Full Comprehensive Cover</h5>
+      <p class="text-muted">From Third-party liability to Own Damage, we've got you covered with transparent terms.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-chalkboard-user"></i></div>
+      <h5 class="fw-bold">Admin & Underwriter Portal</h5>
+      <p class="text-muted">Dedicated dashboards for policy creation, underwriting, and complete CRUD operations.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+      <h5 class="fw-bold">Paperless & Instant Issuance</h5>
+      <p class="text-muted">Generate policy instantly. Vehicle details and premium calculation in real-time.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-lock"></i></div>
+      <h5 class="fw-bold">Secure Data Storage</h5>
+      <p class="text-muted">All policies & underwriter data stored locally with encryption.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+      <h5 class="fw-bold">Premium Analytics</h5>
+      <p class="text-muted">Monitor revenue, active policies, and filter by vehicle type.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fas fa-headset"></i></div>
+      <h5 class="fw-bold">24/7 Dedicated Support</h5>
+      <p class="text-muted">Expert claim settlement team available around the clock for emergencies.</p>
+    </div>
+  </div>
+</section>
+
+<div class="container my-5">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6">
+      <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="car insurance workflow" class="img-fluid rounded-4 shadow-lg" style="max-height: 400px; width: 100%; object-fit: cover;">
+    </div>
+    <div class="col-lg-6">
+      <span class="badge bg-dark text-warning px-3 py-2 mb-3">Simple 3 Step Journey</span>
+      <h2 class="fw-bold display-6" style="color: #fff;">Get insured in minutes, not days.</h2>
+      <div class="mt-4 d-flex gap-3 mb-3 align-items-start">
+        <div class="flex-shrink-0">
+          <span class="badge rounded-pill p-3 d-flex align-items-center justify-content-center" style="background: var(--primary-teal); width: 48px; height: 48px; font-size: 1.3rem;">1</span>
+        </div>
+        <div class="flex-grow-1">
+          <strong style="color: #fff; display: block;">Provide Vehicle & Owner Details</strong>
+          <small style="color: rgba(255,255,255,0.7);">Registration number, phone, vehicle type, engine/chassis info.</small>
+        </div>
+      </div>
+      <div class="mt-3 d-flex gap-3 mb-3 align-items-start">
+        <div class="flex-shrink-0">
+          <span class="badge rounded-pill p-3 d-flex align-items-center justify-content-center" style="background: var(--primary-teal); width: 48px; height: 48px; font-size: 1.3rem;">2</span>
+        </div>
+        <div class="flex-grow-1">
+          <strong style="color: #fff; display: block;">Choose Coverage & Premium</strong>
+          <small style="color: rgba(255,255,255,0.7);">Full insurance / Third-party, select tenure and premium amount.</small>
+        </div>
+      </div>
+      <div class="mt-3 d-flex gap-3 mb-4 align-items-start">
+        <div class="flex-shrink-0">
+          <span class="badge rounded-pill p-3 d-flex align-items-center justify-content-center" style="background: var(--primary-teal); width: 48px; height: 48px; font-size: 1.3rem;">3</span>
+        </div>
+        <div class="flex-grow-1">
+          <strong style="color: #fff; display: block;">Underwriter Approval & Digital Policy</strong>
+          <small style="color: rgba(255,255,255,0.7);">Instant policy generation after admin approval.</small>
+        </div>
+      </div>
+      <a routerLink="/login" class="btn-start-policy">Start Your Policy <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5 pt-3">
+  <div class="text-center mb-5">
+    <h2 class="section-title" style="color: #fff;">Trusted by thousands of drivers</h2>
+    <p class="text-white-50 mt-3">Real stories from our policyholders</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="d-flex align-items-center mb-3">
+        <i class="fas fa-user-circle fa-2x me-3" style="color: var(--primary-teal);"></i>
+        <div><strong>Rahul Mehta</strong><br><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i></div>
+      </div>
+      <p class="text-muted">"The underwriter dashboard helped me get my 4-wheeler insurance renewed in under 3 minutes. Seamless experience."</p>
+    </div>
+    <div class="testimonial-card">
+      <div class="d-flex align-items-center mb-3">
+        <i class="fas fa-user-circle fa-2x me-3" style="color: var(--primary-teal);"></i>
+        <div><strong>Neha Sharma</strong><br><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i></div>
+      </div>
+      <p class="text-muted">"Super easy claim process after my car met with an accident. Star Protect saved me huge repair costs."</p>
+    </div>
+    <div class="testimonial-card">
+      <div class="d-flex align-items-center mb-3">
+        <i class="fas fa-user-circle fa-2x me-3" style="color: var(--primary-teal);"></i>
+        <div><strong>Kunal Verma</strong><br><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star text-warning"></i><i class="fas fa-star-half-alt text-warning"></i></div>
+      </div>
+      <p class="text-muted">"Admin panel is powerful — I manage all underwriters easily. Love the UI consistency."</p>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <div class="cta-section">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <h2 class="fw-bold text-white">Ready to secure your vehicle?</h2>
+        <p class="opacity-75">Join hundreds of smart vehicle owners who trust Star Protect. Instant quotes, expert underwriters, 24/7 support.</p>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <a routerLink="/login" class="btn-start-policy" style="background: white; color: #0a2f2a;"><i class="fas fa-arrow-right-to-bracket"></i> Login to Dashboard</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-5">
+        <i class="fas fa-shield-alt fa-2x mb-3" style="color: var(--accent-gold);"></i>
+        <h5 class="text-white">Star Protect Vehicle Insurance</h5>
+        <p class="small">Comprehensive vehicle protection tailored for modern Indian roads. Backed by advanced underwriting technology.</p>
+      </div>
+      <div class="col-md-3">
+        <h6 class="text-warning">Quick Links</h6>
+        <ul class="list-unstyled small">
+          <li><a href="#" class="text-white-50 text-decoration-none">About Us</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Claims</a></li>
+          <li><a routerLink="/login" class="text-white-50 text-decoration-none">Underwriter Login</a></li>
+          <li><a routerLink="/login" class="text-white-50 text-decoration-none">Admin Portal</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h6 class="text-warning">Contact Support</h6>
+        <p class="small mb-1"><i class="fas fa-phone-alt me-2"></i> +91 1800 266 6282</p>
+        <p class="small"><i class="fas fa-envelope me-2"></i> StarProtectVehicle&#64;gmail.com</p>
+        <div class="mt-2">
+          <a href="#" class="text-white-50 me-3"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="text-white-50 me-3"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-white-50"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+    <hr class="opacity-25 mt-4">
+    <div class="text-center small">
+      &copy; Copyright 2000-2026 StarProtectVehicle.com. All Rights Reserved.
+    </div>
+  </div>
+</footer>
